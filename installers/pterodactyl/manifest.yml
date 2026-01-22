@@ -1,0 +1,78 @@
+id: pterodactyl
+name: Pterodactyl Panel
+version: 1.11.5
+description: Open-source game server management panel
+category: control-panels
+author: Platform Team
+homepage: https://pterodactyl.io
+
+os_requirements:
+  family:
+    - ubuntu
+    - debian
+  min_version: "20.04"
+
+resource_requirements:
+  min_ram_mb: 2048
+  min_disk_mb: 5120
+  min_cpu_cores: 2
+
+inputs:
+  - name: domain
+    type: string
+    label: Panel Domain
+    description: Domain name for the panel (e.g., panel.example.com)
+    required: true
+    validation:
+      pattern: '^[a-z0-9\-\.]+$'
+      max_length: 253
+  
+  - name: admin_email
+    type: email
+    label: Admin Email
+    description: Administrator email address
+    required: true
+  
+  - name: admin_username
+    type: string
+    label: Admin Username
+    description: Administrator username
+    required: true
+    default: admin
+    validation:
+      min_length: 3
+      max_length: 32
+  
+  - name: admin_password
+    type: password
+    label: Admin Password
+    description: Administrator password (min 12 characters)
+    required: true
+    sensitive: true
+    validation:
+      min_length: 12
+  
+  - name: mysql_root_password
+    type: password
+    label: MySQL Root Password
+    description: MySQL root password
+    required: true
+    sensitive: true
+    validation:
+      min_length: 12
+  
+  - name: install_wings
+    type: boolean
+    label: Install Wings (Daemon)
+    description: Install Pterodactyl Wings on this server
+    required: false
+    default: "false"
+
+install_script: install.sh
+timeout_seconds: 1800
+idempotent: true
+
+tags:
+  - control-panel
+  - game-server
+  - management
