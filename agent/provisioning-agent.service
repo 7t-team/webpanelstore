@@ -1,0 +1,26 @@
+[Unit]
+Description=Provisioning Agent Daemon
+After=network.target redis.service
+Wants=redis.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/provisioning
+Environment="AGENT_ID=agent-001"
+Environment="REDIS_URL=redis://localhost:6379/0"
+Environment="SECRET_KEY=change-me-in-production"
+ExecStart=/usr/bin/python3 /opt/provisioning/agent/daemon.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+# Security hardening
+NoNewPrivileges=false
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/var/log/provisioning /var/lib/provisioning /etc /opt /var/www /usr
+
+[Install]
+WantedBy=multi-user.target
